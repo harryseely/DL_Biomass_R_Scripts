@@ -54,6 +54,9 @@ ggplot(plots, aes(x = total_AGB, fill = dataset)) +
 
 table(is.na(plots$sample_ID))
 
+#Check number of plots in each set
+table(plots$sample_ID)
+
 
 
 #Copy LAS files to new folders -----
@@ -86,5 +89,19 @@ for (i in 1:length(las_flist)){
     }
   }
 
+
+
+
+#Check that there are no duplicate LAS files between folders -----
+
+#List files in each folder
+train_flist <- list.files("train")
+test_flist <- list.files("test")
+val_flist <- list.files("val")
+
+#Check overlap
+table(train_flist %in% test_flist)
+table(train_flist %in% val_flist)
+table(val_flist %in% test_flist)
 
 

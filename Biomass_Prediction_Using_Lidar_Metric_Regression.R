@@ -224,3 +224,23 @@ summary(model_bc)
 summary(model_petawawa)
 
 
+
+#Check summary stats for each dataset ----
+
+#Mean
+mean(plots$total_AGB[plots$dataset == "BC"])
+mean(plots$total_AGB[plots$dataset == "PF"])
+mean(plots$total_AGB[plots$dataset == "RM"])
+
+#Std. Dev
+sd(plots$total_AGB[plots$dataset == "BC"])
+sd(plots$total_AGB[plots$dataset == "PF"])
+sd(plots$total_AGB[plots$dataset == "RM"])
+
+
+
+
+
+
+
+

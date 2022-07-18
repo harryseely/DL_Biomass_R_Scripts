@@ -257,14 +257,21 @@ st_write(las_hull,
          dsn = "Outputs//las_files_hull_coverage.shp",
          append = F)
 
-#Copy LAS files without issues to model input LAS folder ----
+#Clean and copy LAS files without issues to model input LAS folder ----
 
-out_dir = "D:/Sync/Data/Model_Input/lidar_data"
+in_dir = "D:/Sync/Data/Provincial_Plot_and_Lidar_Data/BC/BC_Lidar_clipped_to_plots/"
+out_dir = "D:/Sync/Data/Model_Input/lidar_data/"
 
 for (i in 1:length(las_fns)){
+  #Get las file
   lasfile_i <- las_fns[i]
-  file.copy(paste(getwd(), "/BC_Lidar_clipped_to_plots/", lasfile_i, sep = ""), 
-            to = out_dir)
+  las_i <- readLAS(paste(in_dir, lasfile_i, sep = ""))
+  #Change points that are labeled as being greater than the 4th return as 4th return
+  las_i@data$ReturnNumber[las_i@data$ReturnNumber > 4] = 4
+  #Convert ReturnNumber to integer
+  las_i@data$ReturnNumber <- as.integer(las_i@data$ReturnNumber)
+  #Save cleaned LAS
+  writeLAS(las_i, paste(out_dir, lasfile_i, sep = ""))
   print(paste("Copying file:", las_fns[i]))
 }
 
