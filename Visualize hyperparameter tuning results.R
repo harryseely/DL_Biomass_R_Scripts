@@ -47,6 +47,32 @@ lr_summary <- df %>% group_by(lr) %>%
 plot(lr_summary$lr, lr_summary$mean_value)
 plot(lr_summary$lr, lr_summary$median_value)
 
+#Ground filter height
+ground_filter_height_summary <- df %>% 
+  group_by(ground_filter_height) %>%
+  summarise(mean_value = mean(value),
+            median_value = median(value))
+
+plot(ground_filter_height_summary$ground_filter_height, ground_filter_height_summary$mean_value)
+plot(ground_filter_height_summary$ground_filter_height, ground_filter_height_summary$median_value)
+
+#Patience
+Patience_summary <- df %>% 
+  group_by(patience) %>%
+  summarise(mean_value = mean(value),
+            median_value = median(value))
+
+plot(Patience_summary$patience, Patience_summary$mean_value)
+plot(Patience_summary$patience, Patience_summary$median_value)
 
 
+#Activation function
+ggplot(df, aes(x = activation_function, y = value)) +
+  geom_bar(stat = "identity")
+
+#Optimizer function
+ggplot(df, aes(x = optimizer, y = value)) +
+  geom_bar(stat = "identity")
+
+#Groun
 

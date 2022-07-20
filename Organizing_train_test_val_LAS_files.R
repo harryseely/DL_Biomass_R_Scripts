@@ -32,7 +32,10 @@ las_flist <- las_flist[las_flist %in% las_match]
 hist(plots$total_AGB)
 
 #Randomly sample pop for training (70%), testing (15%), and validation (15%)
-set.seed(99); idx <- sample(seq(1, 3), size = nrow(plots), replace = T, prob = c(.7, .15, .15)); idx
+set.seed(99); idx <- sample(seq(1, 3), 
+                            size = nrow(plots), 
+                            replace = T, 
+                            prob = c(.8, .1, .1)); idx
 train_IDs <- plots$PlotID[idx == 1]
 test_IDs <- plots$PlotID[idx == 2]
 val_IDs <- plots$PlotID[idx == 3]
@@ -43,19 +46,31 @@ plots$sample_ID <- factor(idx)
 #Plot the resulting distributions'
 ggplot(plots, aes(x = total_AGB, fill = sample_ID)) +
   geom_histogram(position = "dodge") + 
-  scale_fill_manual(values=c("green", "red", "blue"))
+  scale_fill_manual(labels=c('Training', 'Testing', 'Validation'), 
+                    values = c("red", "green", "blue"),
+                    name = "Set")
+
 
 #Check that train/test/val sets evenly include datasets (BC, Romeo, Petawawa) -----
+
+#Set dataset as factor
+plots$dataset <- factor(plots$dataset)
 
 #Check even spread of source datasets among train/val/test sets
 ggplot(plots, aes(x = total_AGB, fill = dataset)) +
   geom_histogram(position = "dodge") + 
-  scale_fill_manual(values=c("green", "red", "blue"))
+  scale_fill_manual(values = c("red", "green", "blue"),
+                    name = "Dataset")
+
+
 
 table(is.na(plots$sample_ID))
 
-#Check number of plots in each set
+#Check number and percent of plots in each set
 table(plots$sample_ID)
+round(table(plots$sample_ID)/nrow(plots)*100, 0)
+
+
 
 
 
